@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Age to Image</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f4f4f4;
+        margin: 0;
+      }
+      .container {
+        text-align: center;
+      }
+      #ageImage {
+        margin-top: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <canvas id="ageCanvas" style="display: none"></canvas>
+      <img id="ageImage" src="" alt="Age Image" />
+    </div>
+
+    <script>
+      function calculateAge(birthDate) {
+        const today = new Date();
+        const birthDateObj = new Date(birthDate);
+        let age = today.getFullYear() - birthDateObj.getFullYear();
+        const monthDiff = today.getMonth() - birthDateObj.getMonth();
+        if (
+          monthDiff < 0 ||
+          (monthDiff === 0 && today.getDate() < birthDateObj.getDate())
+        ) {
+          age--;
+        }
+        return age;
+      }
+
+      function generateImage() {
+        const age = calculateAge("2000-11-23");
+
+        const canvas = document.getElementById("ageCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Set canvas size
+        const fontSize = 48; // Adjust font size as needed
+        canvas.width = fontSize * 2; // Adjust width based on font size and text length
+        canvas.height = fontSize * 1.5; // Adjust height based on font size
+
+        // Draw text on canvas
+        ctx.fillStyle = "#FFFFFF"; // Background color (white)
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "#000000"; // Text color (black)
+        ctx.font = `${fontSize}px Arial`;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        ctx.fillText(age, canvas.width / 2, canvas.height / 2);
+
+        // Convert canvas to image
+        const dataURL = canvas.toDataURL("image/png");
+        document.getElementById("ageImage").src = dataURL;
+      }
+
+      // Automatically generate the image when the page loads
+      window.onload = generateImage;
+    </script>
+  </body>
+</html>
