@@ -1,9 +1,9 @@
- 
- const fs = require('fs');
+const fs = require('fs'); // File System module to handle file operations
 
-// Read the JSON file
-let jsonData = JSON.parse(fs.readFileSync('birthdate.json', 'utf8'));
+// Step 1: Read the JSON file
+let jsonData = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
+// Step 2: Function to calculate age
 function calculateAge(birthdate) {
   const today = new Date();
   const birthDate = new Date(birthdate);
@@ -17,10 +17,10 @@ function calculateAge(birthdate) {
   return age;
 }
 
-// Calculate the age and store it in the JSON object
+// Step 3: Calculate the age and update the JSON object
 jsonData.age = calculateAge(jsonData.birthdate);
 
-// Save the updated JSON back to the file
+// Step 4: Save the updated JSON back to the file
 fs.writeFileSync('birthdate.json', JSON.stringify(jsonData, null, 2), 'utf8');
 
 console.log('Age updated in JSON:', jsonData);
